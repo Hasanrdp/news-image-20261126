@@ -12,8 +12,9 @@ Layout (1024 x 1024):
   * one large lead story with a drawn launch scene: North Korea's Kim
     Jong Un ordering a wider deployment of tactical nuclear weapons,
     reported by KCNA on Thursday 26 November;
-  * 32 further dated stories from 10 regions and fields, each with a
-    small drawn pictogram, a region tag and the date 26 NOV;
+  * 49 further dated stories from 10 regions and fields, in a 5 by 10
+    grid, each with a small drawn pictogram, a region tag and the
+    date 26 NOV;
   * a footer repeating the date and the story count.
 
 Every headline below is a real story first reported on 26 November 2026
@@ -472,42 +473,60 @@ REGION_COLORS = {
 }
 
 # ------------------------------------------------------------- the stories
-# (headline, region, icon) - 32 grid stories + 1 lead story = 33 stories
+# (headline, region, icon) - 49 grid stories + 1 lead story = 50 stories
 # from 10 regions, all first reported on Thursday 26 November 2026.
+# Headlines are kept short so each fits its tile in two lines.
 
 STORIES = [
-    ("FIRST PAKISTANI IN ORBIT", "ASIA", "rocket"),
-    ("US TARIFFS HIT 14 PARTNERS", "AMERICAS", "chart"),
+    ("PAKISTANI IN ORBIT", "ASIA", "rocket"),
+    ("US TARIFFS HIT 14", "AMERICAS", "chart"),
     ("UKRAINE HITS AIR BASE", "EUROPE", "plane"),
     ("RUSSIA STRIKES KYIV", "EUROPE", "blast"),
-    ("HOUTHIS HIT SAUDI REFINERY", "MIDEAST", "flame"),
-    ("TANKERS HIT MINES IN HORMUZ", "MIDEAST", "ship"),
-    ("GAZA: HAMAS OFFICIAL KILLED", "MIDEAST", "blast"),
+    ("SAUDI REFINERY HIT", "MIDEAST", "flame"),
+    ("MINES HIT IN HORMUZ", "MIDEAST", "ship"),
+    ("GAZA: HAMAS KILLED", "MIDEAST", "blast"),
     ("BANGLADESH WAGE UP 36%", "ASIA", "coin"),
-    ("INDIA: 26/11, 18 YEARS ON", "ASIA", "dome"),
+    ("26/11: 18 YEARS ON", "ASIA", "dome"),
     ("SUDAN DRONES KILL 19", "AFRICA", "blast"),
-    ("EGYPT TANKER FIRE KILLS 31", "AFRICA", "flame"),
-    ("MILITANTS KILL 30 IN NIGERIA", "AFRICA", "blast"),
+    ("EGYPT FIRE KILLS 31", "AFRICA", "flame"),
+    ("NIGERIA: 30 KILLED", "AFRICA", "blast"),
     ("CULT LEADER CONVICTED", "AFRICA", "gavel"),
-    ("COLOMBIA FREES 20 HOSTAGES", "AMERICAS", "shield"),
-    ("VENEZUELA DEBT: 237.5 BN", "AMERICAS", "coin"),
+    ("20 HOSTAGES FREED", "AMERICAS", "shield"),
+    ("VENEZUELA 237.5 BN", "AMERICAS", "coin"),
     ("PETROBRAS PLANS 122 BN", "AMERICAS", "oil"),
-    ("MURMANSK GOVERNOR HELD", "EUROPE", "gavel"),
-    ("34 NATIONS: HALT GAS USE", "EUROPE", "scale"),
+    ("MURMANSK CHIEF HELD", "EUROPE", "gavel"),
+    ("34 NATIONS: HALT GAS", "EUROPE", "scale"),
     ("PYONGYANG EXPELS SWISS", "ASIA", "flag"),
-    ("LEBANON TO OPEN SECOND AIRPORT", "MIDEAST", "plane"),
-    ("IRAN READY FOR US BLOCKADE", "MIDEAST", "ship"),
+    ("2ND AIRPORT: LEBANON", "MIDEAST", "plane"),
+    ("IRAN READY FOR BLOCKADE", "MIDEAST", "ship"),
     ("JUDGE BLOCKS TRUMP ORDER", "AMERICAS", "gavel"),
-    ("PLANE CRASH IN GULF; SIX DEAD", "AMERICAS", "plane"),
-    ("PROBE REACHES MERCURY", "SCIENCE", "satellite"),
-    ("ASTEROID TEST FINDS CRATER", "SCIENCE", "asteroid"),
-    ("GUKESH DRAWS IN CHESS FINAL", "SPORT", "chess"),
+    ("PLANE CRASH: SIX DEAD", "AMERICAS", "plane"),
+    ("PROBE AT MERCURY", "SCIENCE", "satellite"),
+    ("ASTEROID CRATER FOUND", "SCIENCE", "asteroid"),
+    ("GUKESH DRAWS FINAL", "SPORT", "chess"),
     ("TEEN SMASHES RECORD 204", "SPORT", "cricket"),
-    ("IPL AUCTION: 1,220 REGISTER", "SPORT", "cricket"),
+    ("1,220 FOR IPL SALE", "SPORT", "cricket"),
     ("FLIPKART CEO TO STEP DOWN", "BUSINESS", "chart"),
-    ("DURAN DURAN STAR DIES AT 65", "CULTURE", "music"),
+    ("DURAN DURAN STAR DIES", "CULTURE", "music"),
     ("SOLOMON ISLES PACT", "PACIFIC", "shield"),
     ("INDIA-NEPAL AID DEAL", "ASIA", "coin"),
+    ("XI PROBES SHANGHAI", "ASIA", "gavel"),
+    ("MALAYSIA SUES GOOGLE", "ASIA", "gavel"),
+    ("MINE FLOOD KILLS 9", "ASIA", "blast"),
+    ("IITS ADD 6,000 SEATS", "ASIA", "dome"),
+    ("UK MOVES WARPLANES", "EUROPE", "plane"),
+    ("NATO CALLS URGENT MEET", "EUROPE", "shield"),
+    ("FTSE 100 EDGES UP", "EUROPE", "chart"),
+    ("HOUTHI DRONE HITS TOWER", "MIDEAST", "blast"),
+    ("QATAR GP GOES AHEAD", "MIDEAST", "flag"),
+    ("BRAZIL VIRUS DOWN 68%", "AMERICAS", "chart"),
+    ("NVIDIA FACES SENATE", "AMERICAS", "scale"),
+    ("TRUMP'S TURKEYS", "AMERICAS", "flag"),
+    ("RAMAPHOSA WINS CASE", "AFRICA", "gavel"),
+    ("OPENAI SORRY OVER FILES", "PACIFIC", "scale"),
+    ("AUSSIE PRICES UP", "PACIFIC", "chart"),
+    ("HERA EYES ASTEROID", "SCIENCE", "asteroid"),
+    ("A KIDMAN CAROL OPENS", "CULTURE", "music"),
 ]
 
 LEAD_KICKER = "NORTH KOREA  -  26 NOV 2026"
@@ -600,27 +619,27 @@ def draw_tile(cv, x, y, w, h, headline, region, kind):
     cv.border(x, y, w, h, (200, 194, 178), 1)
     col = REGION_COLORS[region]
     # region tag + date row
-    draw_text(cv, x + 8, y + 6, 2, col, region)
+    draw_text(cv, x + 8, y + 4, 2, col, region)
     d = "26 NOV"
-    draw_text(cv, x + w - 8 - text_width(d, 2), y + 6, 2, RED, d)
-    cv.hline(x + 8, y + 23, w - 16, (220, 214, 198), 1)
-    # pictogram (32 px) and headline, up to 2 lines at scale 2
-    ix, iy, isize = x + 8, y + 27, 32
+    draw_text(cv, x + w - 8 - text_width(d, 2), y + 4, 2, RED, d)
+    cv.hline(x + 8, y + 19, w - 16, (220, 214, 198), 1)
+    # pictogram (24 px) and headline, up to 2 lines at scale 2
+    ix, iy, isize = x + 8, y + 22, 24
     icon_bg(cv, ix, iy, isize, NAVY)
     ICONS[kind](cv, ix, iy, isize)
-    lines = wrap(headline, 15)[:2]
-    ly = y + 28
+    lines = wrap(headline, 12)[:2]
+    ly = y + 22
     for line in lines:
-        draw_text(cv, ix + isize + 8, ly, 2, INK, line)
-        ly += 15
+        draw_text(cv, ix + isize + 6, ly, 2, INK, line)
+        ly += 12
 
 
 def draw_grid(cv, y, h):
-    cols, rows = 4, 8
-    gap = 6
+    cols, rows = 5, 10
+    gap = 5
     tw = (W - 18 - (cols - 1) * gap) // cols
     th = (h - (rows - 1) * gap) // rows
-    draw_text(cv, 10, y - 24, 2, INK, "WORLD IN BRIEF  -  32 MORE STORIES, 26 NOVEMBER 2026")
+    draw_text(cv, 10, y - 24, 2, INK, "WORLD IN BRIEF  -  49 MORE STORIES, 26 NOVEMBER 2026")
     draw_text(cv, W - 10 - text_width("ALL DATED 26 NOV", 2), y - 24, 2, RED, "ALL DATED 26 NOV")
     for i, (headline, region, kind) in enumerate(STORIES):
         r, c = divmod(i, cols)
@@ -633,7 +652,7 @@ def draw_footer(cv):
     y = H - 34
     cv.rect(0, y, W, 34, INK)
     draw_text_c(cv, W // 2, y + 9, 2, WHITE,
-                "THE WORLD TODAY  -  THURSDAY 26 NOVEMBER 2026  -  33 STORIES FROM 10 REGIONS")
+                "THE WORLD TODAY  -  THURSDAY 26 NOVEMBER 2026  -  50 STORIES FROM 10 REGIONS")
     draw_text_c(cv, W // 2, y + 24, 1, GOLD,
                 "SOURCES: REUTERS, KCNA, WIRE ROUND-UPS  -  ALL STORIES FIRST REPORTED 26 NOVEMBER 2026")
 
@@ -648,8 +667,8 @@ def draw_page():
 
 # ------------------------------------------------------------------ main
 
-EXPECTED_SHA256 = "07377ceeb4997360b5cf769857001051a071705b98f280230a3c438cc83bef84"
-EXPECTED_BYTES = 29388
+EXPECTED_SHA256 = "a306a30102ef2ceb702492797808bae73f5534aa9239fa86cc2e65e1f6e2975b"
+EXPECTED_BYTES = 33389
 
 
 def main():
@@ -659,7 +678,7 @@ def main():
     texts += [h for line in LEAD_HEAD for h in [line]]
     for headline, _, _ in STORIES:
         texts.append(headline)
-        assert len(wrap(headline, 15)) <= 2, headline
+        assert len(wrap(headline, 12)) <= 2, headline
     for t in texts:
         for ch in t:
             assert ch in FONT, (t, ch)
